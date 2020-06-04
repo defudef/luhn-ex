@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, ChangeEvent } from 'react';
+import LuhnValidation from './components/LuhnValidation';
+import styled from '@emotion/styled';
 
-function App() {
+const Root = styled.div({
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '15px',
+  backgroundColor: '#f4f4fa',
+
+  'h1': {
+    textTransform: 'uppercase',
+    fontSize: '21px',
+    marginBottom: '40px',
+  },
+
+  'input': {
+    width: '100%',
+    maxWidth: '400px',
+    border: '1px solid transparent',
+    padding: '15px',
+    fontSize: '18px',
+    borderRadius: '4px',
+    backgroundColor: '#fff',
+    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 4px 8px 0px',
+    outline: 'none',
+    textAlign: 'center',
+  },
+});
+
+export default () => {
+  const [digits, setDigits] = useState<string>('');
+
+  const handleOnChange = ({ target }: ChangeEvent<HTMLInputElement>) => (
+    (target.value.length === 0 || /^[0-9]*$/.test(target.value)) && setDigits(target.value)
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Root>
+      <h1>Luhn-o-matic</h1>
+      <input
+        type="text"
+        onChange={handleOnChange}
+        value={digits}
+        placeholder="Type your digits here"
+      />
+      <LuhnValidation digits={digits} />
+    </Root>
   );
 }
-
-export default App;
