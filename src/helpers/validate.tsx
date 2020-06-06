@@ -1,7 +1,7 @@
 const calculateDigit = (digit: number, position: number, isLengthEven: boolean): number => {
   const result = (position % 2 === 0)
-    ? isLengthEven ? digit * 2 : digit
-    : isLengthEven ? digit : digit * 2;
+    ? isLengthEven ? digit : digit * 2
+    : isLengthEven ? digit * 2 : digit;
 
   return (result > 9) ? result - 9 : result;
 };

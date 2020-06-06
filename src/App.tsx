@@ -36,9 +36,15 @@ const Root = styled.div({
 export default () => {
   const [digits, setDigits] = useState<string>('');
 
-  const handleOnChange = ({ target }: ChangeEvent<HTMLInputElement>) => (
-    (target.value.length === 0 || /^[0-9]*$/.test(target.value)) && setDigits(target.value)
-  );
+  const handleOnChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const digitsInput = (target.value || '').replace(/ /g, '');
+
+    /^[0-9]*$/.test(digitsInput) && setDigits(digitsInput);
+  }
+
+  const formatAsCardNumber = (digitsInput: string): string => {
+    return digitsInput.replace(/\d{4}(?=.)/g, '$& ');
+  }
 
   return (
     <Root>
@@ -46,7 +52,7 @@ export default () => {
       <input
         type="text"
         onChange={handleOnChange}
-        value={digits}
+        value={formatAsCardNumber(digits)}
         placeholder="Type your digits here"
       />
       <LuhnValidation digits={digits} />
